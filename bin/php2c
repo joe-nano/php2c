@@ -1,0 +1,4 @@
+#!/bin/bash
+CURDIR=`dirname $0`
+PARENTDIR=`cd $CURDIR/..; pwd`
+php $PARENTDIR/translator.php $*
