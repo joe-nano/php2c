@@ -1,14 +1,13 @@
 <?php
 
-namespace PHP2C\Headers;
-
+namespace PHP2C\Defines;
 
 class Manager {
 	/**
-	 * List of headers
+	 * List of defines
 	 * @var array
 	 */
-	protected $_headers = array();
+	protected $_defines = array();
 
 	/**
 	 * @param string $path
@@ -19,7 +18,7 @@ class Manager {
 			throw new \InvalidArgumentException('$path must be only string type');
 		}
 
-		$this->_headers[$path] = $path;
+		$this->_defines[$path] = $path;
 	}
 
 	/**
@@ -29,4 +28,4 @@ class Manager {
 	{
 		return $this->_headers;
 	}
-} 
+}
