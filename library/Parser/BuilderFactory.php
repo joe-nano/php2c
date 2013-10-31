@@ -82,6 +82,6 @@ class PHPParser_BuilderFactory
             return call_user_func_array(array($this, '_' . $name), $args);
         }
 
-        throw new LogicException(sprintf('Method "%s" does not exist', $name));
+        throw new \LogicException(sprintf('Method "%s" does not exist', $name));
     }
 }

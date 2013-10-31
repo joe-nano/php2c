@@ -1,12 +1,14 @@
 <?php
 
+namespace PHP2C\Parser\Node;
+
 /**
  * @property string                          $name    Name
  * @property null|PHPParser_Node_Expr        $default Default value
  * @property null|string|PHPParser_Node_Name $type    Typehint
  * @property bool                            $byRef   Whether is passed by reference
  */
-class PHPParser_Node_Param extends PHPParser_NodeAbstract
+class Param extends \PHP2C\Parser\NodeAbstract
 {
     /**
      * Constructs a parameter node.

@@ -1,11 +1,13 @@
 <?php
 
+namespace PHP2C\Parser\Node\Expr;
+
 /**
  * @property PHPParser_Node_Expr      $value Value
  * @property null|PHPParser_Node_Expr $key   Key
  * @property bool                     $byRef Whether to assign by reference
  */
-class PHPParser_Node_Expr_ArrayItem extends PHPParser_Node_Expr
+class ArrayItem extends \PHP2C\Parser\Node\Expr
 {
     /**
      * Constructs an array item node.
@@ -15,7 +17,7 @@ class PHPParser_Node_Expr_ArrayItem extends PHPParser_Node_Expr
      * @param bool                     $byRef      Whether to assign by reference
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $value, PHPParser_Node_Expr $key = null, $byRef = false, array $attributes = array()) {
+    public function __construct(\PHP2C\Parser\Node\Expr $value, \PHP2C\Parser\Node\Expr $key = null, $byRef = false, array $attributes = array()) {
         parent::__construct(
             array(
                 'key'   => $key,

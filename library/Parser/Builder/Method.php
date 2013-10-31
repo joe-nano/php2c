@@ -74,7 +74,7 @@ class PHPParser_Builder_Method extends PHPParser_BuilderAbstract
      */
     public function makeAbstract() {
         if (!empty($this->stmts)) {
-            throw new LogicException('Cannot make method with statements abstract');
+            throw new \LogicException('Cannot make method with statements abstract');
         }
 
         $this->setModifier(PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
@@ -116,7 +116,7 @@ class PHPParser_Builder_Method extends PHPParser_BuilderAbstract
         $param = $this->normalizeNode($param);
 
         if (!$param instanceof PHPParser_Node_Param) {
-            throw new LogicException(sprintf('Expected parameter node, got "%s"', $param->getType()));
+            throw new \LogicException(sprintf('Expected parameter node, got "%s"', $param->getType()));
         }
 
         $this->params[] = $param;
@@ -148,7 +148,7 @@ class PHPParser_Builder_Method extends PHPParser_BuilderAbstract
      */
     public function addStmt($stmt) {
         if (null === $this->stmts) {
-            throw new LogicException('Cannot add statements to an abstract method');
+            throw new \LogicException('Cannot add statements to an abstract method');
         }
 
         $this->stmts[] = $this->normalizeNode($stmt);

@@ -43,7 +43,7 @@ class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
         $param = $this->normalizeNode($param);
 
         if (!$param instanceof PHPParser_Node_Param) {
-            throw new LogicException(sprintf('Expected parameter node, got "%s"', $param->getType()));
+            throw new \LogicException(sprintf('Expected parameter node, got "%s"', $param->getType()));
         }
 
         $this->params[] = $param;

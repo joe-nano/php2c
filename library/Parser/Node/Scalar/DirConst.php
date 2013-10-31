@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Node_Scalar_DirConst extends PHPParser_Node_Scalar
+namespace PHP2C\Parser\Node\Scalar;
+
+class DirConst extends \PHP2C\Parser\Node\Scalar
 {
     /**
      * Constructs a __DIR__ const node

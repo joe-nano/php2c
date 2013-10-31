@@ -98,7 +98,7 @@ class PHPParser_Builder_Class extends PHPParser_BuilderAbstract
 
         $type = $stmt->getType();
         if (!isset($targets[$type])) {
-            throw new LogicException(sprintf('Unexpected node of type "%s"', $type));
+            throw new \LogicException(sprintf('Unexpected node of type "%s"', $type));
         }
 
         $targets[$type][] = $stmt;

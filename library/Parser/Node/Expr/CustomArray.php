@@ -1,9 +1,11 @@
 <?php
 
+namespace PHP2C\Parser\Node\Expr;
+
 /**
  * @property PHPParser_Node_Expr_ArrayItem[] $items Items
  */
-class PHPParser_Node_Expr_Array extends PHPParser_Node_Expr
+class CustomArray extends \PHP2C\Parser\Node\Expr
 {
     /**
      * Constructs an array node.

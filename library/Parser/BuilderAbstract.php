@@ -54,27 +54,27 @@ abstract class BuilderAbstract
                 new Node\Name('null')
             );
         } elseif (is_bool($value)) {
-            return new PHPParser_Node_Expr_ConstFetch(
-                new PHPParser_Node_Name($value ? 'true' : 'false')
+            return new Node\Expr\ConstFetch(
+                new Node\Name($value ? 'true' : 'false')
             );
         } elseif (is_int($value)) {
-            return new PHPParser_Node_Scalar_LNumber($value);
+            return new Node\Scalar\LNumber($value);
         } elseif (is_float($value)) {
-            return new PHPParser_Node_Scalar_DNumber($value);
+            return new Node\Scalar\DNumber($value);
         } elseif (is_string($value)) {
-            return new PHPParser_Node_Scalar_String($value);
+            return new Node\Scalar\String($value);
         } elseif (is_array($value)) {
             $items = array();
             $lastKey = -1;
             foreach ($value as $itemKey => $itemValue) {
                 // for consecutive, numeric keys don't generate keys
                 if (null !== $lastKey && ++$lastKey === $itemKey) {
-                    $items[] = new PHPParser_Node_Expr_ArrayItem(
+                    $items[] = new Node\Expr\ArrayItem(
                         $this->normalizeValue($itemValue)
                     );
                 } else {
                     $lastKey = null;
-                    $items[] = new PHPParser_Node_Expr_ArrayItem(
+                    $items[] = new Node\Expr\ArrayItem(
                         $this->normalizeValue($itemValue),
                         $this->normalizeValue($itemKey)
                     );
@@ -83,7 +83,7 @@ abstract class BuilderAbstract
 
             return new PHPParser_Node_Expr_Array($items);
         } else {
-            throw new LogicException('Invalid value');
+            throw new \LogicException('Invalid value');
         }
     }
 

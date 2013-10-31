@@ -3,7 +3,7 @@
 /**
  * @property array $parts Encaps list
  */
-class PHPParser_Node_Scalar_Encapsed extends PHPParser_Node_Scalar
+class PHPParser_Node_Scalar_Encapsed extends \PHP2C\Parser\Node\Scalar
 {
     /**
      * Constructs an encapsed string node.

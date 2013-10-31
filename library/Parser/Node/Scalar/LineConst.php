@@ -1,6 +1,6 @@
 <?php
 
-class PHPParser_Node_Scalar_LineConst extends PHPParser_Node_Scalar
+class PHPParser_Node_Scalar_LineConst extends \PHP2C\Parser\Node\Scalar
 {
     /**
      * Constructs a __LINE__ const node

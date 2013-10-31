@@ -57,7 +57,7 @@ class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
                 break;
 
             default:
-                throw new LogicException(sprintf('Unexpected node of type "%s"', $type));
+                throw new \LogicException(sprintf('Unexpected node of type "%s"', $type));
         }
 
         return $this;

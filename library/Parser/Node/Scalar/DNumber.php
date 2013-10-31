@@ -1,9 +1,11 @@
 <?php
 
+namespace PHP2C\Parser\Node\Scalar;
+
 /**
  * @property float $value Number value
  */
-class PHPParser_Node_Scalar_DNumber extends PHPParser_Node_Scalar
+class DNumber extends \PHP2C\Parser\Node\Scalar
 {
     /**
      * Constructs a float number scalar node.

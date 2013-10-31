@@ -1,6 +1,6 @@
 <?php
 
-class PHPParser_Node_Scalar_NSConst extends PHPParser_Node_Scalar
+class PHPParser_Node_Scalar_NSConst extends \PHP2C\Parser\Node\Scalar
 {
     /**
      * Constructs a __NAMESPACE__ const node
