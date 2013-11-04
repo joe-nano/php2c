@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Builder_Interface extends PHPParser_BuilderAbstract
+namespace PHP2C\Parser\Builder;
+
+class CustomInterface extends \PHP2C\Parser\BuilderAbstract
 {
     protected $name;
     protected $extends;

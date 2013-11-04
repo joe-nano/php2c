@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Builder_Function extends PHPParser_BuilderAbstract
+namespace PHP2C\Parser\Builder;
+
+class CustomFunction extends \PHP2C\Parser\BuilderAbstract
 {
     protected $name;
 

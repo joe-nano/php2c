@@ -1,6 +1,11 @@
 <?php
 
-class PHPParser_Serializer_XML implements PHPParser_Serializer
+namespace PHP2C\Parser\Serializer;
+
+use PHP2C\Parser\Comment,
+	PHP2C\Parser\Serializer;
+
+class XML implements Serializer
 {
     protected $writer;
 
@@ -47,9 +52,9 @@ class PHPParser_Serializer_XML implements PHPParser_Serializer
             }
 
             $this->writer->endElement();
-        } elseif ($node instanceof PHPParser_Comment) {
+        } elseif ($node instanceof Comment) {
             $this->writer->startElement('comment');
-            $this->writer->writeAttribute('isDocComment', $node instanceof PHPParser_Comment_Doc ? 'true' : 'false');
+            $this->writer->writeAttribute('isDocComment', $node instanceof Comment\Doc ? 'true' : 'false');
             $this->writer->writeAttribute('line', $node->getLine());
             $this->writer->text($node->getText());
             $this->writer->endElement();

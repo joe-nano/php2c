@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Builder_Method extends PHPParser_BuilderAbstract
+namespace PHP2C\Parser\Builder;
+
+class Method extends \PHP2C\Parser\BuilderAbstract
 {
     protected $name;
 

@@ -1,9 +1,18 @@
 <?php
 
-class PHPParser_Tests_Builder_PropertyTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser as Parser,
+	PHP2C\Parser\Node\Expr\ConstFetch,
+	PHP2C\Parser\Node\Scalar\LNumber,
+	PHP2C\Parser\Node\Scalar\DNumber,
+	PHP2C\Parser\Node\Scalar\String,
+	PHP2C\Parser\Node\Scalar\DirConst,
+	PHP2C\Parser\Node\Expr\ArrayItem,
+	PHP2C\Parser\Node\Expr\CustomArray;
+
+class PHPParser_Tests_Builder_PropertyTest extends \PHPUnit_Framework_TestCase
 {
     public function createPropertyBuilder($name) {
-        return new PHPParser_Builder_Property($name);
+        return new \Parser\Builder\Property($name);
     }
 
     public function testModifiers() {
@@ -71,52 +80,52 @@ class PHPParser_Tests_Builder_PropertyTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 null,
-                new PHPParser_Node_Expr_ConstFetch(new PHPParser_Node_Name('null'))
+                new ConstFetch(new Parser\Node\Name('null'))
             ),
             array(
                 true,
-                new PHPParser_Node_Expr_ConstFetch(new PHPParser_Node_Name('true'))
+                new ConstFetch(new Parser\Node\Name('true'))
             ),
             array(
                 false,
-                new PHPParser_Node_Expr_ConstFetch(new PHPParser_Node_Name('false'))
+                new ConstFetch(new Parser\Node\Name('false'))
             ),
             array(
                 31415,
-                new PHPParser_Node_Scalar_LNumber(31415)
+                new LNumber(31415)
             ),
             array(
                 3.1415,
-                new PHPParser_Node_Scalar_DNumber(3.1415)
+                new DNumber(3.1415)
             ),
             array(
                 'Hallo World',
-                new PHPParser_Node_Scalar_String('Hallo World')
+                new String('Hallo World')
             ),
             array(
                 array(1, 2, 3),
-                new PHPParser_Node_Expr_Array(array(
-                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_LNumber(1)),
-                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_LNumber(2)),
-                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_LNumber(3)),
+                new CustomArray(array(
+                    new ArrayItem(new LNumber(1)),
+                    new ArrayItem(new LNumber(2)),
+                    new ArrayItem(new LNumber(3)),
                 ))
             ),
             array(
                 array('foo' => 'bar', 'bar' => 'foo'),
-                new PHPParser_Node_Expr_Array(array(
-                    new PHPParser_Node_Expr_ArrayItem(
-                        new PHPParser_Node_Scalar_String('bar'),
-                        new PHPParser_Node_Scalar_String('foo')
+                new CustomArray(array(
+                    new ArrayItem(
+                        new String('bar'),
+                        new String('foo')
                     ),
-                    new PHPParser_Node_Expr_ArrayItem(
-                        new PHPParser_Node_Scalar_String('foo'),
-                        new PHPParser_Node_Scalar_String('bar')
+                    new ArrayItem(
+                        new String('foo'),
+                        new String('bar')
                     ),
                 ))
             ),
             array(
-                new PHPParser_Node_Scalar_DirConst,
-                new PHPParser_Node_Scalar_DirConst
+                new DirConst,
+                new DirConst
             )
         );
     }

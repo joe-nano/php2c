@@ -1,6 +1,8 @@
 <?php
 
-abstract class PHPParser_PrettyPrinterAbstract
+namespace PHP2C\Parser;
+
+abstract class PrettyPrinterAbstract
 {
     protected $precedenceMap = array(
         // [precedence, associativity] where for the latter -1 is %left, 0 is %nonassoc and 1 is %right

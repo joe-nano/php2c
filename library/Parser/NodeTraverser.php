@@ -1,9 +1,11 @@
 <?php
 
-class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
+namespace PHP2C\Parser;
+
+class NodeTraverser implements NodeTraverserInterface
 {
     /**
-     * @var PHPParser_NodeVisitor[] Visitors
+     * @var NodeVisitor[] Visitors
      */
     protected $visitors;
 
@@ -17,18 +19,18 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
     /**
      * Adds a visitor.
      *
-     * @param PHPParser_NodeVisitor $visitor Visitor to add
+     * @param NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(PHPParser_NodeVisitor $visitor) {
+    public function addVisitor(NodeVisitor $visitor) {
         $this->visitors[] = $visitor;
     }
 
     /**
      * Removes an added visitor.
      *
-     * @param PHPParser_NodeVisitor $visitor
+     * @param NodeVisitor $visitor
      */
-    public function removeVisitor(PHPParser_NodeVisitor $visitor) {
+    public function removeVisitor(NodeVisitor $visitor) {
         foreach ($this->visitors as $index => $storedVisitor) {
             if ($storedVisitor === $visitor) {
                 unset($this->visitors[$index]);
@@ -40,9 +42,9 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
     /**
      * Traverses an array of nodes using the registered visitors.
      *
-     * @param PHPParser_Node[] $nodes Array of nodes
+     * @param Node[] $nodes Array of nodes
      *
-     * @return PHPParser_Node[] Traversed array of nodes
+     * @return Node[] Traversed array of nodes
      */
     public function traverse(array $nodes) {
         foreach ($this->visitors as $visitor) {

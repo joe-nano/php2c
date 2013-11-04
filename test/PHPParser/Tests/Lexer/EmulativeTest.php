@@ -1,12 +1,14 @@
 <?php
 
-class PHPParser_Tests_Lexer_EmulativeTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser;
+
+class PHPParser_Tests_Lexer_EmulativeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PHPParser_Lexer_Emulative */
     protected $lexer;
 
     protected function setUp() {
-        $this->lexer = new PHPParser_Lexer_Emulative;
+        $this->lexer = new \PHPParser_Lexer_Emulative;
     }
 
     /**
@@ -25,28 +27,28 @@ class PHPParser_Tests_Lexer_EmulativeTest extends PHPUnit_Framework_TestCase
     public function testNoReplaceKeywordsAfterObjectOperator($keyword) {
         $this->lexer->startLexing('<?php ->' . $keyword);
 
-        $this->assertEquals(PHPParser_Parser::T_OBJECT_OPERATOR, $this->lexer->getNextToken());
-        $this->assertEquals(PHPParser_Parser::T_STRING, $this->lexer->getNextToken());
+        $this->assertEquals(Parser::T_OBJECT_OPERATOR, $this->lexer->getNextToken());
+        $this->assertEquals(Parser::T_STRING, $this->lexer->getNextToken());
         $this->assertEquals(0, $this->lexer->getNextToken());
     }
 
     public function provideTestReplaceKeywords() {
         return array(
             // PHP 5.5
-            array('finally',       PHPParser_Parser::T_FINALLY),
-            array('yield',         PHPParser_Parser::T_YIELD),
+            array('finally',       Parser::T_FINALLY),
+            array('yield',         Parser::T_YIELD),
 
             // PHP 5.4
-            array('callable',      PHPParser_Parser::T_CALLABLE),
-            array('insteadof',     PHPParser_Parser::T_INSTEADOF),
-            array('trait',         PHPParser_Parser::T_TRAIT),
-            array('__TRAIT__',     PHPParser_Parser::T_TRAIT_C),
+            array('callable',      Parser::T_CALLABLE),
+            array('insteadof',     Parser::T_INSTEADOF),
+            array('trait',         Parser::T_TRAIT),
+            array('__TRAIT__',     Parser::T_TRAIT_C),
 
             // PHP 5.3
-            array('__DIR__',       PHPParser_Parser::T_DIR),
-            array('goto',          PHPParser_Parser::T_GOTO),
-            array('namespace',     PHPParser_Parser::T_NAMESPACE),
-            array('__NAMESPACE__', PHPParser_Parser::T_NS_C),
+            array('__DIR__',       Parser::T_DIR),
+            array('goto',          Parser::T_GOTO),
+            array('namespace',     Parser::T_NAMESPACE),
+            array('__NAMESPACE__', Parser::T_NS_C),
         );
     }
 

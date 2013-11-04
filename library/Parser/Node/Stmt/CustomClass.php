@@ -1,5 +1,7 @@
 <?php
 
+namespace PHP2C\Parser\Node\Stmt;
+
 /**
  * @property int                      $type       Type
  * @property string                   $name       Name
@@ -7,7 +9,7 @@
  * @property PHPParser_Node_Name[]    $implements Names of implemented interfaces
  * @property PHPParser_Node[]         $stmts      Statements
  */
-class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
+class CustomClass extends PHPParser_Node_Stmt
 {
     const MODIFIER_PUBLIC    =  1;
     const MODIFIER_PROTECTED =  2;

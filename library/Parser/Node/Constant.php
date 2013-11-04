@@ -1,10 +1,14 @@
 <?php
 
+namespace PHP2C\Parser\Node;
+
+use PHP2C\Parser\NodeAbstract;
+
 /**
  * @property string              $name  Name
  * @property PHPParser_Node_Expr $value Value
  */
-class PHPParser_Node_Const extends PHPParser_NodeAbstract
+class Constant extends NodeAbstract
 {
     /**
      * Constructs a const node for use in class const and const statements.

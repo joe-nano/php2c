@@ -1,6 +1,8 @@
 <?php
 
-interface PHPParser_Serializer
+namespace PHP2C\Parser;
+
+interface Serializer
 {
     /**
      * Serializes statements into some string format.

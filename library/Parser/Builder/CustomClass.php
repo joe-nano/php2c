@@ -1,6 +1,10 @@
 <?php
 
-class PHPParser_Builder_Class extends PHPParser_BuilderAbstract
+namespace PHP2C\Parser\Builder;
+
+use PHP2C\Parser as Parser;
+
+class CustomClass extends \PHP2C\Parser\BuilderAbstract
 {
     protected $name;
 
@@ -74,7 +78,7 @@ class PHPParser_Builder_Class extends PHPParser_BuilderAbstract
      * @return PHPParser_Builder_Class The builder instance (for fluid interface)
      */
     public function makeFinal() {
-        $this->setModifier(PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+        $this->setModifier(Parser\Node\Stmt\CustomClass::MODIFIER_FINAL);
 
         return $this;
     }
@@ -127,7 +131,7 @@ class PHPParser_Builder_Class extends PHPParser_BuilderAbstract
      * @return PHPParser_Node_Stmt_Class The built class node
      */
     public function getNode() {
-        return new PHPParser_Node_Stmt_Class($this->name, array(
+        return new \Parser\Node\Stmt\CustomClass($this->name, array(
             'type' => $this->type,
             'extends' => $this->extends,
             'implements' => $this->implements,

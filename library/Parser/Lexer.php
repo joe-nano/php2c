@@ -1,6 +1,10 @@
 <?php
 
-class PHPParser_Lexer
+namespace PHP2C\Parser;
+
+use PHP2C\Parser;
+
+class Lexer
 {
     protected $code;
     protected $tokens;
@@ -27,7 +31,7 @@ class PHPParser_Lexer
      *
      * @param string $code The source code to lex
      *
-     * @throws PHPParser_Error on lexing errors (unterminated comment or unexpected character)
+     * @throws Error on lexing errors (unterminated comment or unexpected character)
      */
     public function startLexing($code) {
         $this->resetErrors();
@@ -51,14 +55,14 @@ class PHPParser_Lexer
             '~^Unterminated comment starting line ([0-9]+)$~',
             $error['message'], $matches
         )) {
-            throw new PHPParser_Error('Unterminated comment', $matches[1]);
+            throw new Error('Unterminated comment', $matches[1]);
         }
 
         if (preg_match(
             '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
             $error['message'], $matches
         )) {
-            throw new PHPParser_Error(sprintf(
+            throw new Error(sprintf(
                 'Unexpected character "%s" (ASCII %d)',
                 $matches[1], $matches[2]
             ));
@@ -66,7 +70,7 @@ class PHPParser_Lexer
 
         // PHP cuts error message after null byte, so need special case
         if (preg_match('~^Unexpected character in input:  \'$~', $error['message'])) {
-            throw new PHPParser_Error('Unexpected null byte');
+            throw new Error('Unexpected null byte');
         }
     }
 
@@ -102,9 +106,9 @@ class PHPParser_Lexer
                 $this->line += substr_count($token[1], "\n");
 
                 if (T_COMMENT === $token[0]) {
-                    $startAttributes['comments'][] = new PHPParser_Comment($token[1], $token[2]);
+                    $startAttributes['comments'][] = new Comment($token[1], $token[2]);
                 } elseif (T_DOC_COMMENT === $token[0]) {
-                    $startAttributes['comments'][] = new PHPParser_Comment_Doc($token[1], $token[2]);
+                    $startAttributes['comments'][] = new Comment\Doc($token[1], $token[2]);
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
                     $startAttributes['startLine'] = $token[2];
@@ -144,7 +148,7 @@ class PHPParser_Lexer
         // this simplifies the situation, by not allowing any comments
         // in between of the tokens.
         if (!preg_match('~\s*\(\s*\)\s*(?:;|\?>\r?\n?)~', $textAfter, $matches)) {
-            throw new PHPParser_Error('__halt_compiler must be followed by "();"');
+            throw new Error('__halt_compiler must be followed by "();"');
         }
 
         // prevent the lexer from returning any further tokens
@@ -171,16 +175,16 @@ class PHPParser_Lexer
         for ($i = 256; $i < 1000; ++$i) {
             // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
             if (T_DOUBLE_COLON === $i) {
-                $tokenMap[$i] = PHPParser_Parser::T_PAAMAYIM_NEKUDOTAYIM;
+                $tokenMap[$i] = Parser::T_PAAMAYIM_NEKUDOTAYIM;
             // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
             } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
-                $tokenMap[$i] = PHPParser_Parser::T_ECHO;
+                $tokenMap[$i] = Parser::T_ECHO;
             // T_CLOSE_TAG is equivalent to ';'
             } elseif(T_CLOSE_TAG === $i) {
                 $tokenMap[$i] = ord(';');
             // and the others can be mapped directly
             } elseif ('UNKNOWN' !== ($name = token_name($i))
-                      && defined($name = 'PHPParser_Parser::' . $name)
+                      && defined($name = 'Parser::' . $name)
             ) {
                 $tokenMap[$i] = constant($name);
             }
