@@ -2,6 +2,8 @@
 
 namespace PHP2C\Parser\Node\Stmt;
 
+use \PHP2C\Parser\Error;
+
 /**
  * @property int                      $type       Type
  * @property string                   $name       Name
@@ -9,7 +11,7 @@ namespace PHP2C\Parser\Node\Stmt;
  * @property PHPParser_Node_Name[]    $implements Names of implemented interfaces
  * @property PHPParser_Node[]         $stmts      Statements
  */
-class CustomClass extends PHPParser_Node_Stmt
+class CustomClass extends \PHP2C\Parser\Node\Stmt
 {
     const MODIFIER_PUBLIC    =  1;
     const MODIFIER_PROTECTED =  2;
@@ -48,16 +50,16 @@ class CustomClass extends PHPParser_Node_Stmt
         $this->name = $name;
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
+            throw new Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
         }
 
         if (isset(self::$specialNames[(string) $this->extends])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
+            throw new Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
         }
 
         foreach ($this->implements as $interface) {
             if (isset(self::$specialNames[(string) $interface])) {
-                throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
+                throw new Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }
     }

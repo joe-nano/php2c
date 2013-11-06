@@ -1115,7 +1115,7 @@ class Parser
     }
 
     protected function yyn1($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]($this->yyastk[$this->stackPos-(1-1)]); 
+         $this->yyval = Parser\Node\Stmt\CustomNamespace::postprocess($this->yyastk[$this->stackPos-(1-1)]); 
     }
 
     protected function yyn2($attributes) {
@@ -1151,23 +1151,23 @@ class Parser
     }
 
     protected function yyn10($attributes) {
-         $this->yyval = new Parser\Node\Stmt\Namespace(new Parser\Node\Name($this->yyastk[$this->stackPos-(3-2)], $attributes), null, $attributes); 
+         $this->yyval = new Parser\Node\Stmt\CustomNamespace(new Parser\Node\Name($this->yyastk[$this->stackPos-(3-2)], $attributes), null, $attributes); 
     }
 
     protected function yyn11($attributes) {
-         $this->yyval = new Parser\Node\Stmt\Namespace(new Parser\Node\Name($this->yyastk[$this->stackPos-(5-2)], $attributes), $this->yyastk[$this->stackPos-(5-4)], $attributes); 
+         $this->yyval = new Parser\Node\Stmt\CustomNamespace(new Parser\Node\Name($this->yyastk[$this->stackPos-(5-2)], $attributes), $this->yyastk[$this->stackPos-(5-4)], $attributes); 
     }
 
     protected function yyn12($attributes) {
-         $this->yyval = new Parser\Node\Stmt\Namespace(null, $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+         $this->yyval = new Parser\Node\Stmt\CustomNamespace(null, $this->yyastk[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function yyn13($attributes) {
-         $this->yyval = new Parser\Node\Stmt\Use($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+         $this->yyval = new Parser\Node\Stmt\CustomUse($this->yyastk[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function yyn14($attributes) {
-         $this->yyval = new Parser\Node\Stmt\Const($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+         $this->yyval = new Parser\Node\Stmt\CustomConst($this->yyastk[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function yyn15($attributes) {
@@ -1203,7 +1203,7 @@ class Parser
     }
 
     protected function yyn23($attributes) {
-         $this->yyval = new Parser\Node\Const($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+         $this->yyval = new Parser\Node\CustomConst($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
     }
 
     protected function yyn24($attributes) {
@@ -1399,11 +1399,11 @@ class Parser
     }
 
     protected function yyn72($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(2-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_ABSTRACT; 
     }
 
     protected function yyn73($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(2-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_FINAL; 
     }
 
     protected function yyn74($attributes) {
@@ -1759,11 +1759,11 @@ class Parser
     }
 
     protected function yyn162($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_PUBLIC; 
     }
 
     protected function yyn163($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(0-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_PUBLIC; 
     }
 
     protected function yyn164($attributes) {
@@ -1775,31 +1775,31 @@ class Parser
     }
 
     protected function yyn166($attributes) {
-         Parser\Node$this->yyastk[$this->stackPos-(2-0)]($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)]); $this->yyval = $this->yyastk[$this->stackPos-(2-1)] | $this->yyastk[$this->stackPos-(2-2)]; 
+         Parser\Node\Stmt\CustomClass::verifyModifier($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)]); $this->yyval = $this->yyastk[$this->stackPos-(2-1)] | $this->yyastk[$this->stackPos-(2-2)]; 
     }
 
     protected function yyn167($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_PUBLIC; 
     }
 
     protected function yyn168($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_PROTECTED; 
     }
 
     protected function yyn169($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_PRIVATE; 
     }
 
     protected function yyn170($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_STATIC; 
     }
 
     protected function yyn171($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_ABSTRACT; 
     }
 
     protected function yyn172($attributes) {
-         $this->yyval = Parser\Node$this->yyastk[$this->stackPos-(1-0)]; 
+         $this->yyval = Parser\Node\Stmt\CustomClass::MODIFIER_FINAL; 
     }
 
     protected function yyn173($attributes) {
@@ -2063,11 +2063,11 @@ class Parser
     }
 
     protected function yyn238($attributes) {
-         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node$this->yyastk[$this->stackPos-(2-0)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node\Expr\CustomInclude::TYPE_INCLUDE, $attributes); 
     }
 
     protected function yyn239($attributes) {
-         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node$this->yyastk[$this->stackPos-(2-0)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node\Expr\CustomInclude::TYPE_INCLUDE_ONCE, $attributes); 
     }
 
     protected function yyn240($attributes) {
@@ -2075,11 +2075,11 @@ class Parser
     }
 
     protected function yyn241($attributes) {
-         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node$this->yyastk[$this->stackPos-(2-0)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node\Expr\CustomInclude::TYPE_REQUIRE, $attributes); 
     }
 
     protected function yyn242($attributes) {
-         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node$this->yyastk[$this->stackPos-(2-0)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\CustomInclude($this->yyastk[$this->stackPos-(2-2)], Parser\Node\Expr\CustomInclude::TYPE_REQUIRE_ONCE, $attributes); 
     }
 
     protected function yyn243($attributes) {
@@ -2179,7 +2179,7 @@ class Parser
     }
 
     protected function yyn267($attributes) {
-         $this->yyval = new Parser\Node\Expr\ArrayDimFetch(new Parser\Node\Scalar\String(Parser\Node$this->yyastk[$this->stackPos-(4-0)]($this->yyastk[$this->stackPos-(4-1)]), $attributes), $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\ArrayDimFetch(new Parser\Node\Scalar\String(Parser\Node\Scalar\String::parse($this->yyastk[$this->stackPos-(4-1)]), $attributes), $this->yyastk[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function yyn268($attributes) {
@@ -2187,7 +2187,7 @@ class Parser
     }
 
     protected function yyn269($attributes) {
-         $this->yyval = new Parser\Node\Expr\New($this->yyastk[$this->stackPos-(3-2)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\CustomNew($this->yyastk[$this->stackPos-(3-2)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
     }
 
     protected function yyn270($attributes) {
@@ -2329,7 +2329,7 @@ class Parser
     }
 
     protected function yyn301($attributes) {
-         $this->yyval = array(Parser\Node$this->yyastk[$this->stackPos-(1-0)]($this->yyastk[$this->stackPos-(1-1)], '`')); 
+         $this->yyval = array(Parser\Node\Scalar\String::parseEscapeSequences($this->yyastk[$this->stackPos-(1-1)], '`')); 
     }
 
     protected function yyn302($attributes) {
@@ -2345,15 +2345,15 @@ class Parser
     }
 
     protected function yyn305($attributes) {
-         $this->yyval = new Parser\Node\Scalar\LNumber(Parser\Node$this->yyastk[$this->stackPos-(1-0)]($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
+         $this->yyval = new Parser\Node\Scalar\LNumber(Parser\Node\Scalar\LNumber::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
     }
 
     protected function yyn306($attributes) {
-         $this->yyval = new Parser\Node\Scalar\DNumber(Parser\Node$this->yyastk[$this->stackPos-(1-0)]($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
+         $this->yyval = new Parser\Node\Scalar\DNumber(Parser\Node\Scalar\DNumber::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
     }
 
     protected function yyn307($attributes) {
-         $this->yyval = new Parser\Node\Scalar\String(Parser\Node$this->yyastk[$this->stackPos-(1-0)]($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
+         $this->yyval = new Parser\Node\Scalar\String(Parser\Node\Scalar\String::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
     }
 
     protected function yyn308($attributes) {
@@ -2389,7 +2389,7 @@ class Parser
     }
 
     protected function yyn316($attributes) {
-         $this->yyval = new Parser\Node\Scalar\String(Parser\Node$this->yyastk[$this->stackPos-(3-0)]($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-2)]), $attributes); 
+         $this->yyval = new Parser\Node\Scalar\String(Parser\Node\Scalar\String::parseDocString($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-2)]), $attributes); 
     }
 
     protected function yyn317($attributes) {
@@ -2429,15 +2429,15 @@ class Parser
     }
 
     protected function yyn326($attributes) {
-         $this->yyval = new Parser\Node\Expr_ClassConstFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+         $this->yyval = new Parser\Node\Expr\ClassConstFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
     }
 
     protected function yyn327($attributes) {
-         foreach ($this->yyastk[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Parser\Node\Scalar\String::parseEscapeSequences($s, '"'); } }; $this->yyval = new Parser\Node\Scalar_Encapsed($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+         foreach ($this->yyastk[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Parser\Node\Scalar\String::parseEscapeSequences($s, '"'); } }; $this->yyval = new Parser\Node\Scalar\Encapsed($this->yyastk[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function yyn328($attributes) {
-         foreach ($this->yyastk[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Parser\Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->yyastk[$this->stackPos-(3-2)]);; $this->yyval = new Parser\Node\Scalar_Encapsed($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+         foreach ($this->yyastk[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Parser\Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->yyastk[$this->stackPos-(3-2)]);; $this->yyval = new Parser\Node\Scalar\Encapsed($this->yyastk[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function yyn329($attributes) {

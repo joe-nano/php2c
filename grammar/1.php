@@ -1,0 +1,1 @@
+/home/zaets28rus/projects/php-to-c/grammar/tmp_parser.phpy: there are 6 shift/reduce conflicts

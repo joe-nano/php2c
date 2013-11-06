@@ -70,7 +70,9 @@ if (!$optionKeepTmpGrammar) {
 ///////////////////////////////
 
 function resolveConstants($code) {
-    return preg_replace('~[A-Z][a-zA-Z_\\\\]++::~', 'Parser\Node\$0', $code);
+	return preg_replace_callback('~[A-Z][a-zA-Z_\\\\]++::~', function($matches) {
+		return 'Parser\Node\\'.$matches[0];
+	}, $code);
 }
 
 function resolveNodes($code) {

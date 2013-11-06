@@ -110,7 +110,7 @@
 %%
 
 start:
-    top_statement_list                                      { $$ = Stmt\Namespace::postprocess($1); }
+    top_statement_list                                      { $$ = Stmt\CustomNamespace::postprocess($1); }
 ;
 
 top_statement_list:
@@ -129,11 +129,11 @@ top_statement:
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
-    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt\Namespace[Name[$2], null]; }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt\Namespace[Name[$2], $4]; }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt\Namespace[null,     $3]; }
-    | T_USE use_declarations ';'                            { $$ = Stmt\Use[$2]; }
-    | T_CONST constant_declaration_list ';'                 { $$ = Stmt\Const[$2]; }
+    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt\CustomNamespace[Name[$2], null]; }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt\CustomNamespace[Name[$2], $4]; }
+    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt\CustomNamespace[null,     $3]; }
+    | T_USE use_declarations ';'                            { $$ = Stmt\CustomUse[$2]; }
+    | T_CONST constant_declaration_list ';'                 { $$ = Stmt\CustomConst[$2]; }
 ;
 
 use_declarations:
@@ -154,7 +154,7 @@ constant_declaration_list:
 ;
 
 constant_declaration:
-    T_STRING '=' static_scalar                              { $$ = Const[$1, $3]; }
+    T_STRING '=' static_scalar                              { $$ = CustomConst[$1, $3]; }
 ;
 
 inner_statement_list:
@@ -466,26 +466,26 @@ method_body:
 
 variable_modifiers:
       non_empty_member_modifiers                            { $$ = $1; }
-    | T_VAR                                                 { $$ = Stmt\Class::MODIFIER_PUBLIC; }
+    | T_VAR                                                 { $$ = Stmt\CustomClass::MODIFIER_PUBLIC; }
 ;
 
 method_modifiers:
-      /* empty */                                           { $$ = Stmt\Class::MODIFIER_PUBLIC; }
+      /* empty */                                           { $$ = Stmt\CustomClass::MODIFIER_PUBLIC; }
     | non_empty_member_modifiers                            { $$ = $1; }
 ;
 
 non_empty_member_modifiers:
       member_modifier                                       { $$ = $1; }
-    | non_empty_member_modifiers member_modifier            { Stmt\Class::verifyModifier($1, $2); $$ = $1 | $2; }
+    | non_empty_member_modifiers member_modifier            { Stmt\CustomClass::verifyModifier($1, $2); $$ = $1 | $2; }
 ;
 
 member_modifier:
-      T_PUBLIC                                              { $$ = Stmt\Class::MODIFIER_PUBLIC; }
-    | T_PROTECTED                                           { $$ = Stmt\Class::MODIFIER_PROTECTED; }
-    | T_PRIVATE                                             { $$ = Stmt\Class::MODIFIER_PRIVATE; }
-    | T_STATIC                                              { $$ = Stmt\Class::MODIFIER_STATIC; }
-    | T_ABSTRACT                                            { $$ = Stmt\Class::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = Stmt_Class::MODIFIER_FINAL; }
+      T_PUBLIC                                              { $$ = Stmt\CustomClass::MODIFIER_PUBLIC; }
+    | T_PROTECTED                                           { $$ = Stmt\CustomClass::MODIFIER_PROTECTED; }
+    | T_PRIVATE                                             { $$ = Stmt\CustomClass::MODIFIER_PRIVATE; }
+    | T_STATIC                                              { $$ = Stmt\CustomClass::MODIFIER_STATIC; }
+    | T_ABSTRACT                                            { $$ = Stmt\CustomClass::MODIFIER_ABSTRACT; }
+    | T_FINAL                                               { $$ = Stmt\CustomClass::MODIFIER_FINAL; }
 ;
 
 property_declaration_list:
@@ -617,7 +617,7 @@ scalar_dereference:
 ;
 
 new_expr:
-      T_NEW class_name_reference ctor_arguments             { $$ = Expr\New[$2, $3]; }
+      T_NEW class_name_reference ctor_arguments             { $$ = Expr\CustomNew[$2, $3]; }
 ;
 
 lexical_vars:
@@ -744,11 +744,11 @@ static_scalar: /* compile-time evaluated scalars */
 scalar:
       common_scalar                                         { $$ = $1; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM class_const_name
-          { $$ = Expr_ClassConstFetch[$1, $3]; }
+          { $$ = Expr\ClassConstFetch[$1, $3]; }
     | '"' encaps_list '"'
-          { parseEncapsed($2, '"'); $$ = Scalar_Encapsed[$2]; }
+          { parseEncapsed($2, '"'); $$ = Scalar\Encapsed[$2]; }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
-          { parseEncapsedDoc($2); $$ = Scalar_Encapsed[$2]; }
+          { parseEncapsedDoc($2); $$ = Scalar\Encapsed[$2]; }
 ;
 
 class_const_name:
