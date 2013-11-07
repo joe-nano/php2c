@@ -1,17 +1,22 @@
 <?php
 
+namespace PHP2C\Parser\Node\Stmt\TraitUseAdaptation;
+
+use PHP2C\Parser\Node\Stmt\TraitUseAdaptation,
+	PHP2C\Parser\Node\Name;
+
 /**
- * @property null|PHPParser_Node_Name $trait       Trait name
+ * @property null|Name $trait       Trait name
  * @property string                   $method      Method name
  * @property null|int                 $newModifier New modifier
  * @property null|string              $newName     New name
  */
-class PHPParser_Node_Stmt_TraitUseAdaptation_Alias extends PHPParser_Node_Stmt_TraitUseAdaptation
+class Alias extends TraitUseAdaptation
 {
     /**
      * Constructs a trait use precedence adaptation node.
      *
-     * @param null|PHPParser_Node_Name $trait       Trait name
+     * @param null|Name $trait       Trait name
      * @param string                   $method      Method name
      * @param null|int                 $newModifier New modifier
      * @param null|string              $newName     New name
