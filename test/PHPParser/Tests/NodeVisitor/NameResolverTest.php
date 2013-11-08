@@ -175,12 +175,12 @@ EOC;
             new Parser\Node\Stmt\CustomInterface('B'),
             new Parser\Node\Stmt\CustomFunction('C'),
             new Parser\Node\Stmt\Constant(array(
-                new Parser\Node\Constant('D', new PHPParser_Node_Scalar_String('E'))
+                new Parser\Node\Constant('D', new Parser\Node\Scalar\String('E'))
             )),
         ));
 
-        $traverser = new PHPParser_NodeTraverser;
-        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+        $traverser = new Parser\NodeTraverser;
+        $traverser->addVisitor(new Parser\NodeVisitor\NameResolver);
 
         $stmts = $traverser->traverse($stmts);
 
@@ -196,11 +196,11 @@ EOC;
 
     public function testAddTraitNamespacedName() {
         $stmts = $this->createNamespacedAndNonNamespaced(array(
-            new PHPParser_Node_Stmt_Trait('A')
+            new Parser\Node\Stmt\CustomTrait('A')
         ));
 
-        $traverser = new PHPParser_NodeTraverser;
-        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+        $traverser = new Parser\NodeTraverser;
+        $traverser->addVisitor(new Parser\NodeVisitor\NameResolver);
 
         $stmts = $traverser->traverse($stmts);
 
@@ -209,19 +209,19 @@ EOC;
     }
 
     /**
-     * @expectedException        PHPParser_Error
+     * @expectedException        Parser\Error
      * @expectedExceptionMessage Cannot use "C" as "B" because the name is already in use on line 2
      */
     public function testAlreadyInUseError() {
         $stmts = array(
-            new PHPParser_Node_Stmt_Use(array(
-                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('A\B'), 'B', array('startLine' => 1)),
-                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('C'),   'B', array('startLine' => 2)),
+            new Parser\Node\Stmt\CustomUse(array(
+                new Parser\Node\Stmt\UseUse(new Parser\Node\Name('A\B'), 'B', array('startLine' => 1)),
+                new Parser\Node\Stmt\UseUse(new Parser\Node\Name('C'),   'B', array('startLine' => 2)),
             ))
         );
 
-        $traverser = new PHPParser_NodeTraverser;
-        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+        $traverser = new Parser\NodeTraverser;
+        $traverser->addVisitor(new Parser\NodeVisitor\NameResolver);
         $traverser->traverse($stmts);
     }
 }

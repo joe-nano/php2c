@@ -2,13 +2,15 @@
 
 require_once dirname(__FILE__) . '/CodeTestAbstract.php';
 
+use PHP2C\Parser;
+
 class PHPParser_Tests_ParserTest extends PHPParser_Tests_CodeTestAbstract
 {
     /**
      * @dataProvider provideTestParse
      */
     public function testParse($name, $code, $dump) {
-        $parser = new \PHP2C\Parser(new PHPParser_Lexer_Emulative);
+        $parser = new \PHP2C\Parser(new Parser\Lexer\Emulative);
         $dumper = new \PHP2C\Parser\NodeDumper;
 
         $stmts = $parser->parse($code);
@@ -27,7 +29,7 @@ class PHPParser_Tests_ParserTest extends PHPParser_Tests_CodeTestAbstract
      * @dataProvider provideTestParseFail
      */
     public function testParseFail($name, $code, $msg) {
-        $parser = new \PHP2C\Parser(new PHPParser_Lexer_Emulative);
+        $parser = new Parser(new Parser\Lexer\Emulative);
 
         try {
             $parser->parse($code);
