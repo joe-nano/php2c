@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Tests_Node_Scalar_StringTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser;
+
+class PHPParser_Tests_Node_Scalar_StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideTestParseEscapeSequences
@@ -8,7 +10,7 @@ class PHPParser_Tests_Node_Scalar_StringTest extends PHPUnit_Framework_TestCase
     public function testParseEscapeSequences($expected, $string, $quote) {
         $this->assertEquals(
             $expected,
-            PHPParser_Node_Scalar_String::parseEscapeSequences($string, $quote)
+            Parser\Node\Scalar\String::parseEscapeSequences($string, $quote)
         );
     }
 
@@ -18,7 +20,7 @@ class PHPParser_Tests_Node_Scalar_StringTest extends PHPUnit_Framework_TestCase
     public function testCreate($expected, $string) {
         $this->assertEquals(
             $expected,
-            PHPParser_Node_Scalar_String::parse($string)
+			Parser\Node\Scalar\String::parse($string)
         );
     }
 

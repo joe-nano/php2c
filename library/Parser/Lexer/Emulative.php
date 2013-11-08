@@ -1,9 +1,13 @@
 <?php
 
+namespace PHP2C\Parser\Lexer;
+
+use PHP2C\Parser;
+
 /**
  * ATTENTION: This code is WRITE-ONLY. Do not try to read it.
  */
-class PHPParser_Lexer_Emulative extends PHPParser_Lexer
+class Emulative extends Parser\Lexer
 {
     protected $newKeywords;
     protected $inObjectAccess;
@@ -13,20 +17,20 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
 
         $newKeywordsPerVersion = array(
             '5.5.0-dev' => array(
-                'finally'       => PHPParser_Parser::T_FINALLY,
-                'yield'         => PHPParser_Parser::T_YIELD,
+                'finally'       => Parser::T_FINALLY,
+                'yield'         => Parser::T_YIELD,
             ),
             '5.4.0-dev' => array(
-                'callable'      => PHPParser_Parser::T_CALLABLE,
-                'insteadof'     => PHPParser_Parser::T_INSTEADOF,
-                'trait'         => PHPParser_Parser::T_TRAIT,
-                '__trait__'     => PHPParser_Parser::T_TRAIT_C,
+                'callable'      => Parser::T_CALLABLE,
+                'insteadof'     => Parser::T_INSTEADOF,
+                'trait'         => Parser::T_TRAIT,
+                '__trait__'     => Parser::T_TRAIT_C,
             ),
             '5.3.0-dev' => array(
-                '__dir__'       => PHPParser_Parser::T_DIR,
-                'goto'          => PHPParser_Parser::T_GOTO,
-                'namespace'     => PHPParser_Parser::T_NAMESPACE,
-                '__namespace__' => PHPParser_Parser::T_NS_C,
+                '__dir__'       => Parser::T_DIR,
+                'goto'          => Parser::T_GOTO,
+                'namespace'     => Parser::T_NAMESPACE,
+                '__namespace__' => Parser::T_NS_C,
             ),
         );
 
@@ -181,15 +185,15 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
         // replace new keywords by their respective tokens. This is not done
         // if we currently are in an object access (e.g. in $obj->namespace
         // "namespace" stays a T_STRING tokens and isn't converted to T_NAMESPACE)
-        if (PHPParser_Parser::T_STRING === $token && !$this->inObjectAccess) {
+        if (Parser::T_STRING === $token && !$this->inObjectAccess) {
             if (isset($this->newKeywords[strtolower($value)])) {
                 return $this->newKeywords[strtolower($value)];
             }
         // backslashes are replaced by T_NS_SEPARATOR tokens
         } elseif (92 === $token) { // ord('\\')
-            return PHPParser_Parser::T_NS_SEPARATOR;
+            return Parser::T_NS_SEPARATOR;
         // keep track of whether we currently are in an object access (after ->)
-        } elseif (PHPParser_Parser::T_OBJECT_OPERATOR === $token) {
+        } elseif (Parser::T_OBJECT_OPERATOR === $token) {
             $this->inObjectAccess = true;
         } else {
             $this->inObjectAccess = false;

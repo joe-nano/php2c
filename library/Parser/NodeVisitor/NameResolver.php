@@ -1,9 +1,15 @@
 <?php
 
-class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
+namespace PHP2C\Parser\NodeVisitor;
+
+use PHP2C\Parser\NodeVisitorAbstract,
+	PHP2C\Parser\Node,
+	PHP2C\Parser\Error;
+
+class NameResolver extends NodeVisitorAbstract
 {
     /**
-     * @var null|PHPParser_Node_Name Current namespace
+     * @var null|Node\Name Current namespace
      */
     protected $namespace;
 
@@ -17,13 +23,13 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
         $this->aliases   = array();
     }
 
-    public function enterNode(PHPParser_Node $node) {
-        if ($node instanceof PHPParser_Node_Stmt_Namespace) {
+    public function enterNode(Node $node) {
+        if ($node instanceof Node\Stmt\CustomNamespace) {
             $this->namespace = $node->name;
             $this->aliases   = array();
-        } elseif ($node instanceof PHPParser_Node_Stmt_UseUse) {
+        } elseif ($node instanceof Node\Stmt\UseUse) {
             if (isset($this->aliases[$node->alias])) {
-                throw new PHPParser_Error(
+                throw new Error(
                     sprintf(
                         'Cannot use "%s" as "%s" because the name is already in use',
                         $node->name, $node->alias
@@ -33,7 +39,7 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             }
 
             $this->aliases[$node->alias] = $node->name;
-        } elseif ($node instanceof PHPParser_Node_Stmt_Class) {
+        } elseif ($node instanceof Node\Stmt\CustomClass) {
             if (null !== $node->extends) {
                 $node->extends = $this->resolveClassName($node->extends);
             }
@@ -49,43 +55,43 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             }
 
             $this->addNamespacedName($node);
-        } elseif ($node instanceof PHPParser_Node_Stmt_Trait) {
+        } elseif ($node instanceof Node\Stmt\CustomTrait) {
             $this->addNamespacedName($node);
-        } elseif ($node instanceof PHPParser_Node_Stmt_Function) {
+        } elseif ($node instanceof Node\Stmt\CustomFunction) {
             $this->addNamespacedName($node);
-        } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+        } elseif ($node instanceof Node\Stmt\Constant) {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
-        } elseif ($node instanceof PHPParser_Node_Expr_StaticCall
-                  || $node instanceof PHPParser_Node_Expr_StaticPropertyFetch
-                  || $node instanceof PHPParser_Node_Expr_ClassConstFetch
-                  || $node instanceof PHPParser_Node_Expr_New
-                  || $node instanceof PHPParser_Node_Expr_Instanceof
+        } elseif ($node instanceof Node\Expr\StaticCall
+                  || $node instanceof Node\Expr\StaticPropertyFetch
+                  || $node instanceof Node\Expr\ClassConstFetch
+                  || $node instanceof Node\Expr\CustomNew
+                  || $node instanceof Node\Expr\CustomInstanceof
         ) {
-            if ($node->class instanceof PHPParser_Node_Name) {
+            if ($node->class instanceof Node\Name) {
                 $node->class = $this->resolveClassName($node->class);
             }
-        } elseif ($node instanceof PHPParser_Node_Stmt_Catch) {
+        } elseif ($node instanceof Node\Stmt\CustomCatch) {
             $node->type = $this->resolveClassName($node->type);
-        } elseif ($node instanceof PHPParser_Node_Expr_FuncCall
-                  || $node instanceof PHPParser_Node_Expr_ConstFetch
+        } elseif ($node instanceof Node\Expr\FuncCall
+                  || $node instanceof Node\Expr\ConstFetch
         ) {
-            if ($node->name instanceof PHPParser_Node_Name) {
+            if ($node->name instanceof Node\Name) {
                 $node->name = $this->resolveOtherName($node->name);
             }
-        } elseif ($node instanceof PHPParser_Node_Stmt_TraitUse) {
+        } elseif ($node instanceof Node\Stmt\TraitUse) {
             foreach ($node->traits as &$trait) {
                 $trait = $this->resolveClassName($trait);
             }
-        } elseif ($node instanceof PHPParser_Node_Param
-                  && $node->type instanceof PHPParser_Node_Name
+        } elseif ($node instanceof Node\Param
+                  && $node->type instanceof Node\Name
         ) {
             $node->type = $this->resolveClassName($node->type);
         }
     }
 
-    protected function resolveClassName(PHPParser_Node_Name $name) {
+    protected function resolveClassName(Node\Name $name) {
         // don't resolve special class names
         if (in_array((string) $name, array('self', 'parent', 'static'))) {
             return $name;
@@ -104,10 +110,10 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        return new PHPParser_Node_Name_FullyQualified($name->parts, $name->getAttributes());
+        return new Node\Name\FullyQualified($name->parts, $name->getAttributes());
     }
 
-    protected function resolveOtherName(PHPParser_Node_Name $name) {
+    protected function resolveOtherName(Node\Name $name) {
         // fully qualified names are already resolved and we can't do anything about unqualified
         // ones at compiler-time
         if ($name->isFullyQualified() || $name->isUnqualified()) {
@@ -122,15 +128,15 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        return new PHPParser_Node_Name_FullyQualified($name->parts, $name->getAttributes());
+        return new Node\Name\FullyQualified($name->parts, $name->getAttributes());
     }
 
-    protected function addNamespacedName(PHPParser_Node $node) {
+    protected function addNamespacedName(Node $node) {
         if (null !== $this->namespace) {
             $node->namespacedName = clone $this->namespace;
             $node->namespacedName->append($node->name);
         } else {
-            $node->namespacedName = new PHPParser_Node_Name($node->name, $node->getAttributes());
+            $node->namespacedName = new Node\Name($node->name, $node->getAttributes());
         }
     }
 }

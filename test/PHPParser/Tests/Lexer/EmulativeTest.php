@@ -8,7 +8,7 @@ class PHPParser_Tests_Lexer_EmulativeTest extends \PHPUnit_Framework_TestCase
     protected $lexer;
 
     protected function setUp() {
-        $this->lexer = new \PHPParser_Lexer_Emulative;
+        $this->lexer = new Parser\Lexer\Emulative;
     }
 
     /**
@@ -73,7 +73,7 @@ class PHPParser_Tests_Lexer_EmulativeTest extends \PHPUnit_Framework_TestCase
         $stringifiedToken = '"' . addcslashes($code, '"\\') . '"';
         $this->lexer->startLexing('<?php ' . $stringifiedToken);
 
-        $this->assertEquals(PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING, $this->lexer->getNextToken($text));
+        $this->assertEquals(Parser::T_CONSTANT_ENCAPSED_STRING, $this->lexer->getNextToken($text));
         $this->assertEquals($stringifiedToken, $text);
         $this->assertEquals(0, $this->lexer->getNextToken());
     }
@@ -81,23 +81,23 @@ class PHPParser_Tests_Lexer_EmulativeTest extends \PHPUnit_Framework_TestCase
     public function provideTestLexNewFeatures() {
         return array(
             array('0b1010110', array(
-                array(PHPParser_Parser::T_LNUMBER, '0b1010110'),
+                array(Parser::T_LNUMBER, '0b1010110'),
             )),
             array('0b1011010101001010110101010010101011010101010101101011001110111100', array(
-                array(PHPParser_Parser::T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'),
+                array(Parser::T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'),
             )),
             array('\\', array(
-                array(PHPParser_Parser::T_NS_SEPARATOR, '\\'),
+                array(Parser::T_NS_SEPARATOR, '\\'),
             )),
             array("<<<'NOWDOC'\nNOWDOC;\n", array(
-                array(PHPParser_Parser::T_START_HEREDOC, "<<<'NOWDOC'\n"),
-                array(PHPParser_Parser::T_END_HEREDOC, 'NOWDOC'),
+                array(Parser::T_START_HEREDOC, "<<<'NOWDOC'\n"),
+                array(Parser::T_END_HEREDOC, 'NOWDOC'),
                 array(ord(';'), ';'),
             )),
             array("<<<'NOWDOC'\nFoobar\nNOWDOC;\n", array(
-                array(PHPParser_Parser::T_START_HEREDOC, "<<<'NOWDOC'\n"),
-                array(PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"),
-                array(PHPParser_Parser::T_END_HEREDOC, 'NOWDOC'),
+                array(Parser::T_START_HEREDOC, "<<<'NOWDOC'\n"),
+                array(Parser::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"),
+                array(Parser::T_END_HEREDOC, 'NOWDOC'),
                 array(ord(';'), ';'),
             )),
         );

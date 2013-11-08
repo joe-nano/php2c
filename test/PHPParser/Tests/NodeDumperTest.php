@@ -1,13 +1,15 @@
 <?php
 
-class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser;
+
+class PHPParser_Tests_NodeDumperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideTestDump
      * @covers PHPParser_NodeDumper::dump
      */
     public function testDump($node, $dump) {
-        $dumper = new PHPParser_NodeDumper;
+        $dumper = new Parser\NodeDumper;
 
         $this->assertEquals($dump, $dumper->dump($node));
     }
@@ -28,7 +30,7 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
 )'
             ),
             array(
-                new PHPParser_Node_Name(array('Hallo', 'World')),
+                new Parser\Node\Name(array('Hallo', 'World')),
 'Name(
     parts: array(
         0: Hallo
@@ -37,8 +39,8 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
 )'
             ),
             array(
-                new PHPParser_Node_Expr_Array(array(
-                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_String('Foo'))
+                new Parser\Node\Expr\CustomArray(array(
+                    new Parser\Node\Expr\ArrayItem(new Parser\Node\Scalar\String('Foo'))
                 )),
 'Expr_Array(
     items: array(
@@ -60,7 +62,7 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Can only dump nodes and arrays.
      */
     public function testError() {
-        $dumper = new PHPParser_NodeDumper;
+        $dumper = new Parser\NodeDumper;
         $dumper->dump(new stdClass);
     }
 }

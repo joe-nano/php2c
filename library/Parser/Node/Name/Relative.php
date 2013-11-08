@@ -1,6 +1,10 @@
 <?php
 
-class PHPParser_Node_Name_Relative extends PHPParser_Node_Name
+namespace PHP2C\Parser\Node\Name;
+
+use PHP2C\Parser\Node\Name;
+
+class Relative extends Name
 {
     /**
      * Checks whether the name is unqualified. (E.g. Name)

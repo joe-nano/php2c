@@ -1,36 +1,40 @@
 <?php
 
-class PHPParser_Tests_Node_Stmt_ClassTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser\Node\Stmt\CustomClass,
+	PHP2C\Parser\Node\Stmt\ClassMethod,
+	PHP2C\Parser\Node\Stmt;
+
+class PHPParser_Tests_Node_Stmt_ClassTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsAbstract() {
-        $class = new PHPParser_Node_Stmt_Class('Foo', array('type' => PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT));
+        $class = new CustomClass('Foo', array('type' => CustomClass::MODIFIER_ABSTRACT));
         $this->assertTrue($class->isAbstract());
 
-        $class = new PHPParser_Node_Stmt_Class('Foo');
+        $class = new CustomClass('Foo');
         $this->assertFalse($class->isAbstract());
     }
 
     public function testIsFinal() {
-        $class = new PHPParser_Node_Stmt_Class('Foo', array('type' => PHPParser_Node_Stmt_Class::MODIFIER_FINAL));
+        $class = new CustomClass('Foo', array('type' => CustomClass::MODIFIER_FINAL));
         $this->assertTrue($class->isFinal());
 
-        $class = new PHPParser_Node_Stmt_Class('Foo');
+        $class = new CustomClass('Foo');
         $this->assertFalse($class->isFinal());
     }
 
     public function testGetMethods() {
         $methods = array(
-            new PHPParser_Node_Stmt_ClassMethod('foo'),
-            new PHPParser_Node_Stmt_ClassMethod('bar'),
-            new PHPParser_Node_Stmt_ClassMethod('fooBar'),
+            new ClassMethod('foo'),
+            new ClassMethod('bar'),
+            new ClassMethod('fooBar'),
         );
-        $class = new PHPParser_Node_Stmt_Class('Foo', array(
+        $class = new CustomClass('Foo', array(
             'stmts' => array(
-                new PHPParser_Node_Stmt_TraitUse(array()),
+                new Stmt\TraitUse(array()),
                 $methods[0],
-                new PHPParser_Node_Stmt_Const(array()),
+                new Stmt\Constant(array()),
                 $methods[1],
-                new PHPParser_Node_Stmt_Property(0, array()),
+                new Stmt\Property(0, array()),
                 $methods[2],
             )
         ));

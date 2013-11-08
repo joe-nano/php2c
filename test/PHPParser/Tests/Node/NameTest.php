@@ -1,27 +1,30 @@
 <?php
 
-class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
+use \PHP2C\Parser,
+	\PHP2C\Parser\Node\Name;;
+
+class PHPParser_Tests_Node_NameTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct() {
-        $name = new PHPParser_Node_Name(array('foo', 'bar'));
+        $name = new Name(array('foo', 'bar'));
         $this->assertEquals(array('foo', 'bar'), $name->parts);
 
-        $name = new PHPParser_Node_Name('foo\bar');
+        $name = new Name('foo\bar');
         $this->assertEquals(array('foo', 'bar'), $name->parts);
     }
 
     public function testGet() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
         $this->assertEquals('foo', $name->getFirst());
         $this->assertEquals('foo', $name->getLast());
 
-        $name = new PHPParser_Node_Name('foo\bar');
+        $name = new Name('foo\bar');
         $this->assertEquals('foo', $name->getFirst());
         $this->assertEquals('bar', $name->getLast());
     }
 
     public function testToString() {
-        $name = new PHPParser_Node_Name('foo\bar');
+        $name = new Name('foo\bar');
 
         $this->assertEquals('foo\bar', (string) $name);
         $this->assertEquals('foo\bar', $name->toString());
@@ -29,7 +32,7 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
     }
 
     public function testSet() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
 
         $name->set('foo\bar');
         $this->assertEquals('foo\bar', $name->toString());
@@ -37,12 +40,12 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
         $name->set(array('foo', 'bar'));
         $this->assertEquals('foo\bar', $name->toString());
 
-        $name->set(new PHPParser_Node_Name('foo\bar'));
+        $name->set(new Name('foo\bar'));
         $this->assertEquals('foo\bar', $name->toString());
     }
 
     public function testSetFirst() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
 
         $name->setFirst('bar');
         $this->assertEquals('bar', $name->toString());
@@ -58,7 +61,7 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
     }
 
     public function testSetLast() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
 
         $name->setLast('bar');
         $this->assertEquals('bar', $name->toString());
@@ -74,7 +77,7 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
     }
 
     public function testAppend() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
 
         $name->append('bar');
         $this->assertEquals('foo\bar', $name->toString());
@@ -84,7 +87,7 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
     }
 
     public function testPrepend() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
 
         $name->prepend('bar');
         $this->assertEquals('bar\foo', $name->toString());
@@ -94,25 +97,25 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
     }
 
     public function testIs() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
         $this->assertTrue ($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
 
-        $name = new PHPParser_Node_Name('foo\bar');
+        $name = new Name('foo\bar');
         $this->assertFalse($name->isUnqualified());
         $this->assertTrue ($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
 
-        $name = new PHPParser_Node_Name_FullyQualified('foo');
+        $name = new Name\FullyQualified('foo');
         $this->assertFalse($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertTrue ($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
 
-        $name = new PHPParser_Node_Name_Relative('foo');
+        $name = new Name\Relative('foo');
         $this->assertFalse($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
@@ -124,7 +127,7 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage When changing a name you need to pass either a string, an array or a Name node
      */
     public function testInvalidArg() {
-        $name = new PHPParser_Node_Name('foo');
+        $name = new Name('foo');
         $name->set(new stdClass);
     }
 }

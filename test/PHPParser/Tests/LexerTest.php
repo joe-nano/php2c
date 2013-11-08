@@ -1,12 +1,14 @@
 <?php
 
-class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser;
+
+class PHPParser_Tests_LexerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPParser_Lexer */
+    /** @var Parser\Lexer */
     protected $lexer;
 
     protected function setUp() {
-        $this->lexer = new PHPParser_Lexer;
+        $this->lexer = new Parser\Lexer;
     }
 
     /**
@@ -15,7 +17,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
     public function testError($code, $message) {
         try {
             $this->lexer->startLexing($code);
-        } catch (PHPParser_Error $e) {
+        } catch (Parser\Error $e) {
             $this->assertEquals($message, $e->getMessage());
 
             return;
@@ -54,7 +56,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                 '<?php tokens ?>plaintext',
                 array(
                     array(
-                        PHPParser_Parser::T_STRING, 'tokens',
+                        Parser::T_STRING, 'tokens',
                         array('startLine' => 1), array('endLine' => 1)
                     ),
                     array(
@@ -62,7 +64,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                         array('startLine' => 1), array('endLine' => 1)
                     ),
                     array(
-                        PHPParser_Parser::T_INLINE_HTML, 'plaintext',
+                        Parser::T_INLINE_HTML, 'plaintext',
                         array('startLine' => 1), array('endLine' => 1)
                     ),
                 )
@@ -76,14 +78,14 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                         array('startLine' => 2), array('endLine' => 2)
                     ),
                     array(
-                        PHPParser_Parser::T_STRING, 'token',
+                        Parser::T_STRING, 'token',
                         array('startLine' => 2), array('endLine' => 2)
                     ),
                     array(
                         ord('$'), '$',
                         array(
                             'startLine' => 3,
-                            'comments' => array(new PHPParser_Comment_Doc('/** doc' . "\n" . 'comment */', 2))
+                            'comments' => array(new Parser\Comment\Doc('/** doc' . "\n" . 'comment */', 2))
                         ),
                         array('endLine' => 3)
                     ),
@@ -94,14 +96,14 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                 '<?php /* comment */ // comment' . "\n" . '/** docComment 1 *//** docComment 2 */ token',
                 array(
                     array(
-                        PHPParser_Parser::T_STRING, 'token',
+                        Parser::T_STRING, 'token',
                         array(
                             'startLine' => 2,
                             'comments' => array(
-                                new PHPParser_Comment('/* comment */', 1),
-                                new PHPParser_Comment('// comment' . "\n", 1),
-                                new PHPParser_Comment_Doc('/** docComment 1 */', 2),
-                                new PHPParser_Comment_Doc('/** docComment 2 */', 2),
+                                new Parser\Comment('/* comment */', 1),
+                                new Parser\Comment('// comment' . "\n", 1),
+                                new Parser\Comment\Doc('/** docComment 1 */', 2),
+                                new Parser\Comment\Doc('/** docComment 2 */', 2),
                             ),
                         ),
                         array('endLine' => 2)
@@ -113,7 +115,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                 '<?php "foo' . "\n" . 'bar"',
                 array(
                     array(
-                        PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
+                        Parser::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
                         array('startLine' => 1), array('endLine' => 2)
                     ),
                 )
@@ -127,7 +129,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
     public function testHandleHaltCompiler($code, $remaining) {
         $this->lexer->startLexing($code);
 
-        while (PHPParser_Parser::T_HALT_COMPILER !== $this->lexer->getNextToken());
+        while (Parser::T_HALT_COMPILER !== $this->lexer->getNextToken());
 
         $this->assertEquals($this->lexer->handleHaltCompiler(), $remaining);
         $this->assertEquals(0, $this->lexer->getNextToken());

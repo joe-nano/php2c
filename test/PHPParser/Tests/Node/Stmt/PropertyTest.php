@@ -1,12 +1,14 @@
 <?php
 
-class PHPParser_Tests_Node_Stmt_PropertyTest extends PHPUnit_Framework_TestCase
+use PHP2C\Parser\Node\Stmt;
+
+class PHPParser_Tests_Node_Stmt_PropertyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideModifiers
      */
     public function testModifiers($modifier) {
-        $node = new PHPParser_Node_Stmt_Property(
+        $node = new Stmt\Property(
             constant('PHPParser_Node_Stmt_Class::MODIFIER_' . strtoupper($modifier)),
             array() // invalid
         );
@@ -18,7 +20,7 @@ class PHPParser_Tests_Node_Stmt_PropertyTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideModifiers
      */
     public function testNoModifiers($modifier) {
-        $node = new PHPParser_Node_Stmt_Property(0, array());
+        $node = new Stmt\Property(0, array());
 
         $this->assertFalse($node->{'is' . $modifier}());
     }

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @notest
+ * Class PHPParser_Tests_Builder_ClassTest
+ */
 class PHPParser_Tests_Builder_ClassTest extends PHPUnit_Framework_TestCase
 {
     protected function createClassBuilder($class) {
